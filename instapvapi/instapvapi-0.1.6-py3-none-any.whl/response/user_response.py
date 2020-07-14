@@ -1,0 +1,50 @@
+from dataclasses import dataclass
+
+@dataclass
+class UserResponse:
+    biography: str = None
+    is_private: bool = None
+    is_business: bool = None
+    account_type: int = None
+    full_name: str = None
+    external_lynx_url: str = None
+    external_url: str = None
+    pk: int = None
+    follower_count: int = None
+    following_count: int = None
+    following_tag_count: int = None
+    mutual_followers_count: int = None
+    geo_media_count: int = None
+    has_anonymous_profile_picture: bool = None
+    has_biography_translation: bool = None
+    has_chaining: bool = None
+    hd_profile_pic_url: str = None
+    is_favorite: bool = None
+    is_verified: bool = None
+    media_count: int = None
+    profile_context: str = None
+    profile_pic_url: str = None
+    total_igtv_videos: int = None
+    username: str = None
+    usertags_count: int = None
+    reel_auto_archive: str = None
+    allowed_commenter_type: bool = None
+    professional_conversion_suggested_account_type: str = None
+    is_call_to_action_enabled: bool = None
+    can_see_organic_insights: bool = None
+    show_insights_terms: bool = None
+    has_placed_orders: bool = None
+    nametag: list = None
+    is_using_unified_inbox_for_direct: bool = None
+    interop_messaging_user_fbid: str = None
+    can_see_primary_country_in_settings: bool = None
+    allow_contacts_sync: bool = None
+    phone_number: str  = None
+    profile_pic_id: int = None
+    biography_with_entities: dict = None
+    is_favorite_for_stories: bool = None
+    live_subscription_status: str = None
+    hd_profile_pic_versions: list = None
+    hd_profile_pic_url_info: dict = None
+    show_shoppable_feed: bool = None
+    shoppable_posts_count: int = None
