@@ -1,0 +1,2 @@
+from setuptools import setup
+setup(name="packageamey",version="0.3",description="This is cool", Long_description="This is long long description.", author="Amey", packages=['packageamey'],install_requires=[])
