@@ -1,0 +1,3 @@
+from snowday.acl.privileges.common import ALL, MODIFY, MONITOR, OWNERSHIP, USAGE
+
+DATABASE_PRIVILEGES = [ALL, MODIFY, MONITOR, OWNERSHIP, USAGE]
