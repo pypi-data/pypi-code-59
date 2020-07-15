@@ -1,0 +1,1 @@
+from .prominent_colors_detector import ImageProminentColor
