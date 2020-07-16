@@ -1,0 +1,5 @@
+_title = 'KleenExtractor'
+_description = 'Clean extract system to export folder content and sub content.'
+_version = '0.1.1'
+_author = 'Edenskull'
+_license = 'MIT'
