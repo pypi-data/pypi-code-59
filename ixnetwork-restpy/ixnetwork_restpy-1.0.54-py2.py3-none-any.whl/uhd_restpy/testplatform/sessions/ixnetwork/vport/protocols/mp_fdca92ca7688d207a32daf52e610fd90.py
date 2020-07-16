@@ -1,0 +1,1827 @@
+# MIT LICENSE
+#
+# Copyright 1997 - 2020 by IXIA Keysight
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE. 
+from uhd_restpy.base import Base
+from uhd_restpy.files import Files
+
+
+class Mp(Base):
+    """
+    The Mp class encapsulates a list of mp resources that are managed by the user.
+    A list of resources can be retrieved from the server using the Mp.find() method.
+    The list can be managed by using the Mp.add() and Mp.remove() methods.
+    """
+
+    __slots__ = ()
+    _SDM_NAME = 'mp'
+    _SDM_ATT_MAP = {
+        'AddCcmCustomTlvs': 'addCcmCustomTlvs',
+        'AddDataTlv': 'addDataTlv',
+        'AddInterfaceStatusTlv': 'addInterfaceStatusTlv',
+        'AddLbmCustomTlvs': 'addLbmCustomTlvs',
+        'AddLbrCustomTlvs': 'addLbrCustomTlvs',
+        'AddLmmCustomTlvs': 'addLmmCustomTlvs',
+        'AddLmrCustomTlvs': 'addLmrCustomTlvs',
+        'AddLtmCustomTlvs': 'addLtmCustomTlvs',
+        'AddLtrCustomTlvs': 'addLtrCustomTlvs',
+        'AddOrganizationSpecificTlv': 'addOrganizationSpecificTlv',
+        'AddPortStatusTlv': 'addPortStatusTlv',
+        'AddSenderIdTlv': 'addSenderIdTlv',
+        'AisEnableUnicastMac': 'aisEnableUnicastMac',
+        'AisInterval': 'aisInterval',
+        'AisMode': 'aisMode',
+        'AisPriority': 'aisPriority',
+        'AisUnicastMac': 'aisUnicastMac',
+        'AutoDmAllDestination': 'autoDmAllDestination',
+        'AutoDmDestination': 'autoDmDestination',
+        'AutoDmIteration': 'autoDmIteration',
+        'AutoDmTimeout': 'autoDmTimeout',
+        'AutoDmTimer': 'autoDmTimer',
+        'AutoLbAllDestination': 'autoLbAllDestination',
+        'AutoLbDestination': 'autoLbDestination',
+        'AutoLbIteration': 'autoLbIteration',
+        'AutoLbTimeout': 'autoLbTimeout',
+        'AutoLbTimer': 'autoLbTimer',
+        'AutoLmIteration': 'autoLmIteration',
+        'AutoLmTimeout': 'autoLmTimeout',
+        'AutoLmTimer': 'autoLmTimer',
+        'AutoLtAllDestination': 'autoLtAllDestination',
+        'AutoLtDestination': 'autoLtDestination',
+        'AutoLtIteration': 'autoLtIteration',
+        'AutoLtTimeout': 'autoLtTimeout',
+        'AutoLtTimer': 'autoLtTimer',
+        'CciInterval': 'cciInterval',
+        'CcmLmmTxFcf': 'ccmLmmTxFcf',
+        'CcmLmmTxFcfStep': 'ccmLmmTxFcfStep',
+        'CcmPriority': 'ccmPriority',
+        'CcmRxFcb': 'ccmRxFcb',
+        'CcmRxFcbStep': 'ccmRxFcbStep',
+        'ChassisId': 'chassisId',
+        'ChassisIdLength': 'chassisIdLength',
+        'ChassisIdSubType': 'chassisIdSubType',
+        'DataTlvLength': 'dataTlvLength',
+        'DataTlvValue': 'dataTlvValue',
+        'DmMethod': 'dmMethod',
+        'DmPriority': 'dmPriority',
+        'DmmPriority': 'dmmPriority',
+        'EnableAisRx': 'enableAisRx',
+        'EnableAutoDm': 'enableAutoDm',
+        'EnableAutoLb': 'enableAutoLb',
+        'EnableAutoLm': 'enableAutoLm',
+        'EnableAutoLt': 'enableAutoLt',
+        'EnableLckRx': 'enableLckRx',
+        'EnableLmCounterUpdate': 'enableLmCounterUpdate',
+        'EnableTstRx': 'enableTstRx',
+        'Enabled': 'enabled',
+        'InterRemoteMepRxIncrementStep': 'interRemoteMepRxIncrementStep',
+        'InterRemoteMepTxIncrementStep': 'interRemoteMepTxIncrementStep',
+        'LbmPriority': 'lbmPriority',
+        'LckEnableUnicastMac': 'lckEnableUnicastMac',
+        'LckInterval': 'lckInterval',
+        'LckMode': 'lckMode',
+        'LckPriority': 'lckPriority',
+        'LckSupportAisGeneration': 'lckSupportAisGeneration',
+        'LckUnicastMac': 'lckUnicastMac',
+        'LmAllRemoteMeps': 'lmAllRemoteMeps',
+        'LmDestinationMacAddress': 'lmDestinationMacAddress',
+        'LmMethod': 'lmMethod',
+        'LmmPriority': 'lmmPriority',
+        'LmrPriority': 'lmrPriority',
+        'LmrRxFcf': 'lmrRxFcf',
+        'LmrRxFcfStep': 'lmrRxFcfStep',
+        'LtmPriority': 'ltmPriority',
+        'MacAddress': 'macAddress',
+        'ManagementAddress': 'managementAddress',
+        'ManagementAddressDomain': 'managementAddressDomain',
+        'ManagementAddressDomainLength': 'managementAddressDomainLength',
+        'ManagementAddressLength': 'managementAddressLength',
+        'MdLevel': 'mdLevel',
+        'MegId': 'megId',
+        'MegIdFormat': 'megIdFormat',
+        'MepId': 'mepId',
+        'MipId': 'mipId',
+        'MpType': 'mpType',
+        'OrganizationSpecificTlvLength': 'organizationSpecificTlvLength',
+        'OrganizationSpecificTlvValue': 'organizationSpecificTlvValue',
+        'OverrideVlanPriority': 'overrideVlanPriority',
+        'Rdi': 'rdi',
+        'ShortMaName': 'shortMaName',
+        'ShortMaNameFormat': 'shortMaNameFormat',
+        'TstEnableUnicastMac': 'tstEnableUnicastMac',
+        'TstIncrPacketLength': 'tstIncrPacketLength',
+        'TstIncrPacketLengthStep': 'tstIncrPacketLengthStep',
+        'TstInitialPatternValue': 'tstInitialPatternValue',
+        'TstInterval': 'tstInterval',
+        'TstMode': 'tstMode',
+        'TstOverwriteSequenceNumber': 'tstOverwriteSequenceNumber',
+        'TstPacketLength': 'tstPacketLength',
+        'TstPatternType': 'tstPatternType',
+        'TstPriority': 'tstPriority',
+        'TstSequenceNumber': 'tstSequenceNumber',
+        'TstTestType': 'tstTestType',
+        'TstUnicastMac': 'tstUnicastMac',
+        'Ttl': 'ttl',
+        'Vlan': 'vlan',
+    }
+
+    def __init__(self, parent):
+        super(Mp, self).__init__(parent)
+
+    @property
+    def AddCcmCustomTlvs(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AddCcmCustomTlvs'])
+    @AddCcmCustomTlvs.setter
+    def AddCcmCustomTlvs(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AddCcmCustomTlvs'], value)
+
+    @property
+    def AddDataTlv(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AddDataTlv'])
+    @AddDataTlv.setter
+    def AddDataTlv(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AddDataTlv'], value)
+
+    @property
+    def AddInterfaceStatusTlv(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AddInterfaceStatusTlv'])
+    @AddInterfaceStatusTlv.setter
+    def AddInterfaceStatusTlv(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AddInterfaceStatusTlv'], value)
+
+    @property
+    def AddLbmCustomTlvs(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AddLbmCustomTlvs'])
+    @AddLbmCustomTlvs.setter
+    def AddLbmCustomTlvs(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AddLbmCustomTlvs'], value)
+
+    @property
+    def AddLbrCustomTlvs(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AddLbrCustomTlvs'])
+    @AddLbrCustomTlvs.setter
+    def AddLbrCustomTlvs(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AddLbrCustomTlvs'], value)
+
+    @property
+    def AddLmmCustomTlvs(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AddLmmCustomTlvs'])
+    @AddLmmCustomTlvs.setter
+    def AddLmmCustomTlvs(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AddLmmCustomTlvs'], value)
+
+    @property
+    def AddLmrCustomTlvs(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AddLmrCustomTlvs'])
+    @AddLmrCustomTlvs.setter
+    def AddLmrCustomTlvs(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AddLmrCustomTlvs'], value)
+
+    @property
+    def AddLtmCustomTlvs(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AddLtmCustomTlvs'])
+    @AddLtmCustomTlvs.setter
+    def AddLtmCustomTlvs(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AddLtmCustomTlvs'], value)
+
+    @property
+    def AddLtrCustomTlvs(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AddLtrCustomTlvs'])
+    @AddLtrCustomTlvs.setter
+    def AddLtrCustomTlvs(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AddLtrCustomTlvs'], value)
+
+    @property
+    def AddOrganizationSpecificTlv(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AddOrganizationSpecificTlv'])
+    @AddOrganizationSpecificTlv.setter
+    def AddOrganizationSpecificTlv(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AddOrganizationSpecificTlv'], value)
+
+    @property
+    def AddPortStatusTlv(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AddPortStatusTlv'])
+    @AddPortStatusTlv.setter
+    def AddPortStatusTlv(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AddPortStatusTlv'], value)
+
+    @property
+    def AddSenderIdTlv(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AddSenderIdTlv'])
+    @AddSenderIdTlv.setter
+    def AddSenderIdTlv(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AddSenderIdTlv'], value)
+
+    @property
+    def AisEnableUnicastMac(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AisEnableUnicastMac'])
+    @AisEnableUnicastMac.setter
+    def AisEnableUnicastMac(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AisEnableUnicastMac'], value)
+
+    @property
+    def AisInterval(self):
+        """
+        Returns
+        -------
+        - str(oneSec | oneMin): 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AisInterval'])
+    @AisInterval.setter
+    def AisInterval(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AisInterval'], value)
+
+    @property
+    def AisMode(self):
+        """
+        Returns
+        -------
+        - str(auto | start | stop): 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AisMode'])
+    @AisMode.setter
+    def AisMode(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AisMode'], value)
+
+    @property
+    def AisPriority(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AisPriority'])
+    @AisPriority.setter
+    def AisPriority(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AisPriority'], value)
+
+    @property
+    def AisUnicastMac(self):
+        """
+        Returns
+        -------
+        - str: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AisUnicastMac'])
+    @AisUnicastMac.setter
+    def AisUnicastMac(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AisUnicastMac'], value)
+
+    @property
+    def AutoDmAllDestination(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AutoDmAllDestination'])
+    @AutoDmAllDestination.setter
+    def AutoDmAllDestination(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AutoDmAllDestination'], value)
+
+    @property
+    def AutoDmDestination(self):
+        """
+        Returns
+        -------
+        - str: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AutoDmDestination'])
+    @AutoDmDestination.setter
+    def AutoDmDestination(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AutoDmDestination'], value)
+
+    @property
+    def AutoDmIteration(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AutoDmIteration'])
+    @AutoDmIteration.setter
+    def AutoDmIteration(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AutoDmIteration'], value)
+
+    @property
+    def AutoDmTimeout(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AutoDmTimeout'])
+    @AutoDmTimeout.setter
+    def AutoDmTimeout(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AutoDmTimeout'], value)
+
+    @property
+    def AutoDmTimer(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AutoDmTimer'])
+    @AutoDmTimer.setter
+    def AutoDmTimer(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AutoDmTimer'], value)
+
+    @property
+    def AutoLbAllDestination(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AutoLbAllDestination'])
+    @AutoLbAllDestination.setter
+    def AutoLbAllDestination(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AutoLbAllDestination'], value)
+
+    @property
+    def AutoLbDestination(self):
+        """
+        Returns
+        -------
+        - str: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AutoLbDestination'])
+    @AutoLbDestination.setter
+    def AutoLbDestination(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AutoLbDestination'], value)
+
+    @property
+    def AutoLbIteration(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AutoLbIteration'])
+    @AutoLbIteration.setter
+    def AutoLbIteration(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AutoLbIteration'], value)
+
+    @property
+    def AutoLbTimeout(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AutoLbTimeout'])
+    @AutoLbTimeout.setter
+    def AutoLbTimeout(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AutoLbTimeout'], value)
+
+    @property
+    def AutoLbTimer(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AutoLbTimer'])
+    @AutoLbTimer.setter
+    def AutoLbTimer(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AutoLbTimer'], value)
+
+    @property
+    def AutoLmIteration(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AutoLmIteration'])
+    @AutoLmIteration.setter
+    def AutoLmIteration(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AutoLmIteration'], value)
+
+    @property
+    def AutoLmTimeout(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AutoLmTimeout'])
+    @AutoLmTimeout.setter
+    def AutoLmTimeout(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AutoLmTimeout'], value)
+
+    @property
+    def AutoLmTimer(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AutoLmTimer'])
+    @AutoLmTimer.setter
+    def AutoLmTimer(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AutoLmTimer'], value)
+
+    @property
+    def AutoLtAllDestination(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AutoLtAllDestination'])
+    @AutoLtAllDestination.setter
+    def AutoLtAllDestination(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AutoLtAllDestination'], value)
+
+    @property
+    def AutoLtDestination(self):
+        """
+        Returns
+        -------
+        - str: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AutoLtDestination'])
+    @AutoLtDestination.setter
+    def AutoLtDestination(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AutoLtDestination'], value)
+
+    @property
+    def AutoLtIteration(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AutoLtIteration'])
+    @AutoLtIteration.setter
+    def AutoLtIteration(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AutoLtIteration'], value)
+
+    @property
+    def AutoLtTimeout(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AutoLtTimeout'])
+    @AutoLtTimeout.setter
+    def AutoLtTimeout(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AutoLtTimeout'], value)
+
+    @property
+    def AutoLtTimer(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['AutoLtTimer'])
+    @AutoLtTimer.setter
+    def AutoLtTimer(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['AutoLtTimer'], value)
+
+    @property
+    def CciInterval(self):
+        """
+        Returns
+        -------
+        - str(3.33msec | 10msec | 100msec | 1sec | 10sec | 1min | 10min): 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['CciInterval'])
+    @CciInterval.setter
+    def CciInterval(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['CciInterval'], value)
+
+    @property
+    def CcmLmmTxFcf(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['CcmLmmTxFcf'])
+    @CcmLmmTxFcf.setter
+    def CcmLmmTxFcf(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['CcmLmmTxFcf'], value)
+
+    @property
+    def CcmLmmTxFcfStep(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['CcmLmmTxFcfStep'])
+    @CcmLmmTxFcfStep.setter
+    def CcmLmmTxFcfStep(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['CcmLmmTxFcfStep'], value)
+
+    @property
+    def CcmPriority(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['CcmPriority'])
+    @CcmPriority.setter
+    def CcmPriority(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['CcmPriority'], value)
+
+    @property
+    def CcmRxFcb(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['CcmRxFcb'])
+    @CcmRxFcb.setter
+    def CcmRxFcb(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['CcmRxFcb'], value)
+
+    @property
+    def CcmRxFcbStep(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['CcmRxFcbStep'])
+    @CcmRxFcbStep.setter
+    def CcmRxFcbStep(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['CcmRxFcbStep'], value)
+
+    @property
+    def ChassisId(self):
+        """
+        Returns
+        -------
+        - str: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['ChassisId'])
+    @ChassisId.setter
+    def ChassisId(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['ChassisId'], value)
+
+    @property
+    def ChassisIdLength(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['ChassisIdLength'])
+    @ChassisIdLength.setter
+    def ChassisIdLength(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['ChassisIdLength'], value)
+
+    @property
+    def ChassisIdSubType(self):
+        """
+        Returns
+        -------
+        - str(chassisComponent | interfaceAlias | portComponent | macAddress | networkAddress | interfaceName | locallyAssigned): 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['ChassisIdSubType'])
+    @ChassisIdSubType.setter
+    def ChassisIdSubType(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['ChassisIdSubType'], value)
+
+    @property
+    def DataTlvLength(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['DataTlvLength'])
+    @DataTlvLength.setter
+    def DataTlvLength(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['DataTlvLength'], value)
+
+    @property
+    def DataTlvValue(self):
+        """
+        Returns
+        -------
+        - str: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['DataTlvValue'])
+    @DataTlvValue.setter
+    def DataTlvValue(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['DataTlvValue'], value)
+
+    @property
+    def DmMethod(self):
+        """
+        Returns
+        -------
+        - str(twoWay | oneWay): 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['DmMethod'])
+    @DmMethod.setter
+    def DmMethod(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['DmMethod'], value)
+
+    @property
+    def DmPriority(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['DmPriority'])
+    @DmPriority.setter
+    def DmPriority(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['DmPriority'], value)
+
+    @property
+    def DmmPriority(self):
+        """DEPRECATED 
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['DmmPriority'])
+    @DmmPriority.setter
+    def DmmPriority(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['DmmPriority'], value)
+
+    @property
+    def EnableAisRx(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['EnableAisRx'])
+    @EnableAisRx.setter
+    def EnableAisRx(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['EnableAisRx'], value)
+
+    @property
+    def EnableAutoDm(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['EnableAutoDm'])
+    @EnableAutoDm.setter
+    def EnableAutoDm(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['EnableAutoDm'], value)
+
+    @property
+    def EnableAutoLb(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['EnableAutoLb'])
+    @EnableAutoLb.setter
+    def EnableAutoLb(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['EnableAutoLb'], value)
+
+    @property
+    def EnableAutoLm(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['EnableAutoLm'])
+    @EnableAutoLm.setter
+    def EnableAutoLm(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['EnableAutoLm'], value)
+
+    @property
+    def EnableAutoLt(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['EnableAutoLt'])
+    @EnableAutoLt.setter
+    def EnableAutoLt(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['EnableAutoLt'], value)
+
+    @property
+    def EnableLckRx(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['EnableLckRx'])
+    @EnableLckRx.setter
+    def EnableLckRx(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['EnableLckRx'], value)
+
+    @property
+    def EnableLmCounterUpdate(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['EnableLmCounterUpdate'])
+    @EnableLmCounterUpdate.setter
+    def EnableLmCounterUpdate(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['EnableLmCounterUpdate'], value)
+
+    @property
+    def EnableTstRx(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['EnableTstRx'])
+    @EnableTstRx.setter
+    def EnableTstRx(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['EnableTstRx'], value)
+
+    @property
+    def Enabled(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['Enabled'])
+    @Enabled.setter
+    def Enabled(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['Enabled'], value)
+
+    @property
+    def InterRemoteMepRxIncrementStep(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['InterRemoteMepRxIncrementStep'])
+    @InterRemoteMepRxIncrementStep.setter
+    def InterRemoteMepRxIncrementStep(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['InterRemoteMepRxIncrementStep'], value)
+
+    @property
+    def InterRemoteMepTxIncrementStep(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['InterRemoteMepTxIncrementStep'])
+    @InterRemoteMepTxIncrementStep.setter
+    def InterRemoteMepTxIncrementStep(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['InterRemoteMepTxIncrementStep'], value)
+
+    @property
+    def LbmPriority(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['LbmPriority'])
+    @LbmPriority.setter
+    def LbmPriority(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['LbmPriority'], value)
+
+    @property
+    def LckEnableUnicastMac(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['LckEnableUnicastMac'])
+    @LckEnableUnicastMac.setter
+    def LckEnableUnicastMac(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['LckEnableUnicastMac'], value)
+
+    @property
+    def LckInterval(self):
+        """
+        Returns
+        -------
+        - str(oneSec | oneMin): 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['LckInterval'])
+    @LckInterval.setter
+    def LckInterval(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['LckInterval'], value)
+
+    @property
+    def LckMode(self):
+        """
+        Returns
+        -------
+        - str(auto | start | stop): 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['LckMode'])
+    @LckMode.setter
+    def LckMode(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['LckMode'], value)
+
+    @property
+    def LckPriority(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['LckPriority'])
+    @LckPriority.setter
+    def LckPriority(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['LckPriority'], value)
+
+    @property
+    def LckSupportAisGeneration(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['LckSupportAisGeneration'])
+    @LckSupportAisGeneration.setter
+    def LckSupportAisGeneration(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['LckSupportAisGeneration'], value)
+
+    @property
+    def LckUnicastMac(self):
+        """
+        Returns
+        -------
+        - str: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['LckUnicastMac'])
+    @LckUnicastMac.setter
+    def LckUnicastMac(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['LckUnicastMac'], value)
+
+    @property
+    def LmAllRemoteMeps(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['LmAllRemoteMeps'])
+    @LmAllRemoteMeps.setter
+    def LmAllRemoteMeps(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['LmAllRemoteMeps'], value)
+
+    @property
+    def LmDestinationMacAddress(self):
+        """
+        Returns
+        -------
+        - str: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['LmDestinationMacAddress'])
+    @LmDestinationMacAddress.setter
+    def LmDestinationMacAddress(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['LmDestinationMacAddress'], value)
+
+    @property
+    def LmMethod(self):
+        """
+        Returns
+        -------
+        - str(singleEnded | dualEnded): 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['LmMethod'])
+    @LmMethod.setter
+    def LmMethod(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['LmMethod'], value)
+
+    @property
+    def LmmPriority(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['LmmPriority'])
+    @LmmPriority.setter
+    def LmmPriority(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['LmmPriority'], value)
+
+    @property
+    def LmrPriority(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['LmrPriority'])
+    @LmrPriority.setter
+    def LmrPriority(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['LmrPriority'], value)
+
+    @property
+    def LmrRxFcf(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['LmrRxFcf'])
+    @LmrRxFcf.setter
+    def LmrRxFcf(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['LmrRxFcf'], value)
+
+    @property
+    def LmrRxFcfStep(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['LmrRxFcfStep'])
+    @LmrRxFcfStep.setter
+    def LmrRxFcfStep(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['LmrRxFcfStep'], value)
+
+    @property
+    def LtmPriority(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['LtmPriority'])
+    @LtmPriority.setter
+    def LtmPriority(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['LtmPriority'], value)
+
+    @property
+    def MacAddress(self):
+        """
+        Returns
+        -------
+        - str: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['MacAddress'])
+    @MacAddress.setter
+    def MacAddress(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['MacAddress'], value)
+
+    @property
+    def ManagementAddress(self):
+        """
+        Returns
+        -------
+        - str: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['ManagementAddress'])
+    @ManagementAddress.setter
+    def ManagementAddress(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['ManagementAddress'], value)
+
+    @property
+    def ManagementAddressDomain(self):
+        """
+        Returns
+        -------
+        - str: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['ManagementAddressDomain'])
+    @ManagementAddressDomain.setter
+    def ManagementAddressDomain(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['ManagementAddressDomain'], value)
+
+    @property
+    def ManagementAddressDomainLength(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['ManagementAddressDomainLength'])
+    @ManagementAddressDomainLength.setter
+    def ManagementAddressDomainLength(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['ManagementAddressDomainLength'], value)
+
+    @property
+    def ManagementAddressLength(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['ManagementAddressLength'])
+    @ManagementAddressLength.setter
+    def ManagementAddressLength(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['ManagementAddressLength'], value)
+
+    @property
+    def MdLevel(self):
+        """
+        Returns
+        -------
+        - str(None | /api/v1/sessions/1/ixnetwork/vport/.../mdLevel): 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['MdLevel'])
+    @MdLevel.setter
+    def MdLevel(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['MdLevel'], value)
+
+    @property
+    def MegId(self):
+        """
+        Returns
+        -------
+        - str: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['MegId'])
+    @MegId.setter
+    def MegId(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['MegId'], value)
+
+    @property
+    def MegIdFormat(self):
+        """
+        Returns
+        -------
+        - str(iccBasedFormat | primaryVid | characterString | 2octetInteger | rfc2685VpnId): 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['MegIdFormat'])
+    @MegIdFormat.setter
+    def MegIdFormat(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['MegIdFormat'], value)
+
+    @property
+    def MepId(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['MepId'])
+    @MepId.setter
+    def MepId(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['MepId'], value)
+
+    @property
+    def MipId(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['MipId'])
+    @MipId.setter
+    def MipId(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['MipId'], value)
+
+    @property
+    def MpType(self):
+        """
+        Returns
+        -------
+        - str(mip | mep): 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['MpType'])
+    @MpType.setter
+    def MpType(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['MpType'], value)
+
+    @property
+    def OrganizationSpecificTlvLength(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['OrganizationSpecificTlvLength'])
+    @OrganizationSpecificTlvLength.setter
+    def OrganizationSpecificTlvLength(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['OrganizationSpecificTlvLength'], value)
+
+    @property
+    def OrganizationSpecificTlvValue(self):
+        """
+        Returns
+        -------
+        - str: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['OrganizationSpecificTlvValue'])
+    @OrganizationSpecificTlvValue.setter
+    def OrganizationSpecificTlvValue(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['OrganizationSpecificTlvValue'], value)
+
+    @property
+    def OverrideVlanPriority(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['OverrideVlanPriority'])
+    @OverrideVlanPriority.setter
+    def OverrideVlanPriority(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['OverrideVlanPriority'], value)
+
+    @property
+    def Rdi(self):
+        """
+        Returns
+        -------
+        - str(auto | on | off): 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['Rdi'])
+    @Rdi.setter
+    def Rdi(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['Rdi'], value)
+
+    @property
+    def ShortMaName(self):
+        """
+        Returns
+        -------
+        - str: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['ShortMaName'])
+    @ShortMaName.setter
+    def ShortMaName(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['ShortMaName'], value)
+
+    @property
+    def ShortMaNameFormat(self):
+        """
+        Returns
+        -------
+        - str(primaryVid | characterString | 2octetInteger | rfc2685VpnId): 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['ShortMaNameFormat'])
+    @ShortMaNameFormat.setter
+    def ShortMaNameFormat(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['ShortMaNameFormat'], value)
+
+    @property
+    def TstEnableUnicastMac(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['TstEnableUnicastMac'])
+    @TstEnableUnicastMac.setter
+    def TstEnableUnicastMac(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['TstEnableUnicastMac'], value)
+
+    @property
+    def TstIncrPacketLength(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['TstIncrPacketLength'])
+    @TstIncrPacketLength.setter
+    def TstIncrPacketLength(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['TstIncrPacketLength'], value)
+
+    @property
+    def TstIncrPacketLengthStep(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['TstIncrPacketLengthStep'])
+    @TstIncrPacketLengthStep.setter
+    def TstIncrPacketLengthStep(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['TstIncrPacketLengthStep'], value)
+
+    @property
+    def TstInitialPatternValue(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['TstInitialPatternValue'])
+    @TstInitialPatternValue.setter
+    def TstInitialPatternValue(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['TstInitialPatternValue'], value)
+
+    @property
+    def TstInterval(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['TstInterval'])
+    @TstInterval.setter
+    def TstInterval(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['TstInterval'], value)
+
+    @property
+    def TstMode(self):
+        """
+        Returns
+        -------
+        - str(start | stop): 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['TstMode'])
+    @TstMode.setter
+    def TstMode(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['TstMode'], value)
+
+    @property
+    def TstOverwriteSequenceNumber(self):
+        """
+        Returns
+        -------
+        - bool: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['TstOverwriteSequenceNumber'])
+    @TstOverwriteSequenceNumber.setter
+    def TstOverwriteSequenceNumber(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['TstOverwriteSequenceNumber'], value)
+
+    @property
+    def TstPacketLength(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['TstPacketLength'])
+    @TstPacketLength.setter
+    def TstPacketLength(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['TstPacketLength'], value)
+
+    @property
+    def TstPatternType(self):
+        """
+        Returns
+        -------
+        - str(nullSignalWithoutCrc32 | nullSignalWithCrc32 | prbs2311WithoutCrc32 | prbs2311WithCrc32): 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['TstPatternType'])
+    @TstPatternType.setter
+    def TstPatternType(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['TstPatternType'], value)
+
+    @property
+    def TstPriority(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['TstPriority'])
+    @TstPriority.setter
+    def TstPriority(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['TstPriority'], value)
+
+    @property
+    def TstSequenceNumber(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['TstSequenceNumber'])
+    @TstSequenceNumber.setter
+    def TstSequenceNumber(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['TstSequenceNumber'], value)
+
+    @property
+    def TstTestType(self):
+        """
+        Returns
+        -------
+        - str(inService | outOfService): 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['TstTestType'])
+    @TstTestType.setter
+    def TstTestType(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['TstTestType'], value)
+
+    @property
+    def TstUnicastMac(self):
+        """
+        Returns
+        -------
+        - str: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['TstUnicastMac'])
+    @TstUnicastMac.setter
+    def TstUnicastMac(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['TstUnicastMac'], value)
+
+    @property
+    def Ttl(self):
+        """
+        Returns
+        -------
+        - number: 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['Ttl'])
+    @Ttl.setter
+    def Ttl(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['Ttl'], value)
+
+    @property
+    def Vlan(self):
+        """
+        Returns
+        -------
+        - str(None | /api/v1/sessions/1/ixnetwork/vport/.../vlans): 
+        """
+        return self._get_attribute(self._SDM_ATT_MAP['Vlan'])
+    @Vlan.setter
+    def Vlan(self, value):
+        self._set_attribute(self._SDM_ATT_MAP['Vlan'], value)
+
+    def update(self, AddCcmCustomTlvs=None, AddDataTlv=None, AddInterfaceStatusTlv=None, AddLbmCustomTlvs=None, AddLbrCustomTlvs=None, AddLmmCustomTlvs=None, AddLmrCustomTlvs=None, AddLtmCustomTlvs=None, AddLtrCustomTlvs=None, AddOrganizationSpecificTlv=None, AddPortStatusTlv=None, AddSenderIdTlv=None, AisEnableUnicastMac=None, AisInterval=None, AisMode=None, AisPriority=None, AisUnicastMac=None, AutoDmAllDestination=None, AutoDmDestination=None, AutoDmIteration=None, AutoDmTimeout=None, AutoDmTimer=None, AutoLbAllDestination=None, AutoLbDestination=None, AutoLbIteration=None, AutoLbTimeout=None, AutoLbTimer=None, AutoLmIteration=None, AutoLmTimeout=None, AutoLmTimer=None, AutoLtAllDestination=None, AutoLtDestination=None, AutoLtIteration=None, AutoLtTimeout=None, AutoLtTimer=None, CciInterval=None, CcmLmmTxFcf=None, CcmLmmTxFcfStep=None, CcmPriority=None, CcmRxFcb=None, CcmRxFcbStep=None, ChassisId=None, ChassisIdLength=None, ChassisIdSubType=None, DataTlvLength=None, DataTlvValue=None, DmMethod=None, DmPriority=None, DmmPriority=None, EnableAisRx=None, EnableAutoDm=None, EnableAutoLb=None, EnableAutoLm=None, EnableAutoLt=None, EnableLckRx=None, EnableLmCounterUpdate=None, EnableTstRx=None, Enabled=None, InterRemoteMepRxIncrementStep=None, InterRemoteMepTxIncrementStep=None, LbmPriority=None, LckEnableUnicastMac=None, LckInterval=None, LckMode=None, LckPriority=None, LckSupportAisGeneration=None, LckUnicastMac=None, LmAllRemoteMeps=None, LmDestinationMacAddress=None, LmMethod=None, LmmPriority=None, LmrPriority=None, LmrRxFcf=None, LmrRxFcfStep=None, LtmPriority=None, MacAddress=None, ManagementAddress=None, ManagementAddressDomain=None, ManagementAddressDomainLength=None, ManagementAddressLength=None, MdLevel=None, MegId=None, MegIdFormat=None, MepId=None, MipId=None, MpType=None, OrganizationSpecificTlvLength=None, OrganizationSpecificTlvValue=None, OverrideVlanPriority=None, Rdi=None, ShortMaName=None, ShortMaNameFormat=None, TstEnableUnicastMac=None, TstIncrPacketLength=None, TstIncrPacketLengthStep=None, TstInitialPatternValue=None, TstInterval=None, TstMode=None, TstOverwriteSequenceNumber=None, TstPacketLength=None, TstPatternType=None, TstPriority=None, TstSequenceNumber=None, TstTestType=None, TstUnicastMac=None, Ttl=None, Vlan=None):
+        """Updates mp resource on the server.
+
+        Args
+        ----
+        - AddCcmCustomTlvs (bool): 
+        - AddDataTlv (bool): 
+        - AddInterfaceStatusTlv (bool): 
+        - AddLbmCustomTlvs (bool): 
+        - AddLbrCustomTlvs (bool): 
+        - AddLmmCustomTlvs (bool): 
+        - AddLmrCustomTlvs (bool): 
+        - AddLtmCustomTlvs (bool): 
+        - AddLtrCustomTlvs (bool): 
+        - AddOrganizationSpecificTlv (bool): 
+        - AddPortStatusTlv (bool): 
+        - AddSenderIdTlv (bool): 
+        - AisEnableUnicastMac (bool): 
+        - AisInterval (str(oneSec | oneMin)): 
+        - AisMode (str(auto | start | stop)): 
+        - AisPriority (number): 
+        - AisUnicastMac (str): 
+        - AutoDmAllDestination (bool): 
+        - AutoDmDestination (str): 
+        - AutoDmIteration (number): 
+        - AutoDmTimeout (number): 
+        - AutoDmTimer (number): 
+        - AutoLbAllDestination (bool): 
+        - AutoLbDestination (str): 
+        - AutoLbIteration (number): 
+        - AutoLbTimeout (number): 
+        - AutoLbTimer (number): 
+        - AutoLmIteration (number): 
+        - AutoLmTimeout (number): 
+        - AutoLmTimer (number): 
+        - AutoLtAllDestination (bool): 
+        - AutoLtDestination (str): 
+        - AutoLtIteration (number): 
+        - AutoLtTimeout (number): 
+        - AutoLtTimer (number): 
+        - CciInterval (str(3.33msec | 10msec | 100msec | 1sec | 10sec | 1min | 10min)): 
+        - CcmLmmTxFcf (number): 
+        - CcmLmmTxFcfStep (number): 
+        - CcmPriority (number): 
+        - CcmRxFcb (number): 
+        - CcmRxFcbStep (number): 
+        - ChassisId (str): 
+        - ChassisIdLength (number): 
+        - ChassisIdSubType (str(chassisComponent | interfaceAlias | portComponent | macAddress | networkAddress | interfaceName | locallyAssigned)): 
+        - DataTlvLength (number): 
+        - DataTlvValue (str): 
+        - DmMethod (str(twoWay | oneWay)): 
+        - DmPriority (number): 
+        - DmmPriority (number): 
+        - EnableAisRx (bool): 
+        - EnableAutoDm (bool): 
+        - EnableAutoLb (bool): 
+        - EnableAutoLm (bool): 
+        - EnableAutoLt (bool): 
+        - EnableLckRx (bool): 
+        - EnableLmCounterUpdate (bool): 
+        - EnableTstRx (bool): 
+        - Enabled (bool): 
+        - InterRemoteMepRxIncrementStep (number): 
+        - InterRemoteMepTxIncrementStep (number): 
+        - LbmPriority (number): 
+        - LckEnableUnicastMac (bool): 
+        - LckInterval (str(oneSec | oneMin)): 
+        - LckMode (str(auto | start | stop)): 
+        - LckPriority (number): 
+        - LckSupportAisGeneration (bool): 
+        - LckUnicastMac (str): 
+        - LmAllRemoteMeps (bool): 
+        - LmDestinationMacAddress (str): 
+        - LmMethod (str(singleEnded | dualEnded)): 
+        - LmmPriority (number): 
+        - LmrPriority (number): 
+        - LmrRxFcf (number): 
+        - LmrRxFcfStep (number): 
+        - LtmPriority (number): 
+        - MacAddress (str): 
+        - ManagementAddress (str): 
+        - ManagementAddressDomain (str): 
+        - ManagementAddressDomainLength (number): 
+        - ManagementAddressLength (number): 
+        - MdLevel (str(None | /api/v1/sessions/1/ixnetwork/vport/.../mdLevel)): 
+        - MegId (str): 
+        - MegIdFormat (str(iccBasedFormat | primaryVid | characterString | 2octetInteger | rfc2685VpnId)): 
+        - MepId (number): 
+        - MipId (number): 
+        - MpType (str(mip | mep)): 
+        - OrganizationSpecificTlvLength (number): 
+        - OrganizationSpecificTlvValue (str): 
+        - OverrideVlanPriority (bool): 
+        - Rdi (str(auto | on | off)): 
+        - ShortMaName (str): 
+        - ShortMaNameFormat (str(primaryVid | characterString | 2octetInteger | rfc2685VpnId)): 
+        - TstEnableUnicastMac (bool): 
+        - TstIncrPacketLength (bool): 
+        - TstIncrPacketLengthStep (number): 
+        - TstInitialPatternValue (number): 
+        - TstInterval (number): 
+        - TstMode (str(start | stop)): 
+        - TstOverwriteSequenceNumber (bool): 
+        - TstPacketLength (number): 
+        - TstPatternType (str(nullSignalWithoutCrc32 | nullSignalWithCrc32 | prbs2311WithoutCrc32 | prbs2311WithCrc32)): 
+        - TstPriority (number): 
+        - TstSequenceNumber (number): 
+        - TstTestType (str(inService | outOfService)): 
+        - TstUnicastMac (str): 
+        - Ttl (number): 
+        - Vlan (str(None | /api/v1/sessions/1/ixnetwork/vport/.../vlans)): 
+
+        Raises
+        ------
+        - ServerError: The server has encountered an uncategorized error condition
+        """
+        return self._update(self._map_locals(self._SDM_ATT_MAP, locals()))
+
+    def add(self, AddCcmCustomTlvs=None, AddDataTlv=None, AddInterfaceStatusTlv=None, AddLbmCustomTlvs=None, AddLbrCustomTlvs=None, AddLmmCustomTlvs=None, AddLmrCustomTlvs=None, AddLtmCustomTlvs=None, AddLtrCustomTlvs=None, AddOrganizationSpecificTlv=None, AddPortStatusTlv=None, AddSenderIdTlv=None, AisEnableUnicastMac=None, AisInterval=None, AisMode=None, AisPriority=None, AisUnicastMac=None, AutoDmAllDestination=None, AutoDmDestination=None, AutoDmIteration=None, AutoDmTimeout=None, AutoDmTimer=None, AutoLbAllDestination=None, AutoLbDestination=None, AutoLbIteration=None, AutoLbTimeout=None, AutoLbTimer=None, AutoLmIteration=None, AutoLmTimeout=None, AutoLmTimer=None, AutoLtAllDestination=None, AutoLtDestination=None, AutoLtIteration=None, AutoLtTimeout=None, AutoLtTimer=None, CciInterval=None, CcmLmmTxFcf=None, CcmLmmTxFcfStep=None, CcmPriority=None, CcmRxFcb=None, CcmRxFcbStep=None, ChassisId=None, ChassisIdLength=None, ChassisIdSubType=None, DataTlvLength=None, DataTlvValue=None, DmMethod=None, DmPriority=None, DmmPriority=None, EnableAisRx=None, EnableAutoDm=None, EnableAutoLb=None, EnableAutoLm=None, EnableAutoLt=None, EnableLckRx=None, EnableLmCounterUpdate=None, EnableTstRx=None, Enabled=None, InterRemoteMepRxIncrementStep=None, InterRemoteMepTxIncrementStep=None, LbmPriority=None, LckEnableUnicastMac=None, LckInterval=None, LckMode=None, LckPriority=None, LckSupportAisGeneration=None, LckUnicastMac=None, LmAllRemoteMeps=None, LmDestinationMacAddress=None, LmMethod=None, LmmPriority=None, LmrPriority=None, LmrRxFcf=None, LmrRxFcfStep=None, LtmPriority=None, MacAddress=None, ManagementAddress=None, ManagementAddressDomain=None, ManagementAddressDomainLength=None, ManagementAddressLength=None, MdLevel=None, MegId=None, MegIdFormat=None, MepId=None, MipId=None, MpType=None, OrganizationSpecificTlvLength=None, OrganizationSpecificTlvValue=None, OverrideVlanPriority=None, Rdi=None, ShortMaName=None, ShortMaNameFormat=None, TstEnableUnicastMac=None, TstIncrPacketLength=None, TstIncrPacketLengthStep=None, TstInitialPatternValue=None, TstInterval=None, TstMode=None, TstOverwriteSequenceNumber=None, TstPacketLength=None, TstPatternType=None, TstPriority=None, TstSequenceNumber=None, TstTestType=None, TstUnicastMac=None, Ttl=None, Vlan=None):
+        """Adds a new mp resource on the server and adds it to the container.
+
+        Args
+        ----
+        - AddCcmCustomTlvs (bool): 
+        - AddDataTlv (bool): 
+        - AddInterfaceStatusTlv (bool): 
+        - AddLbmCustomTlvs (bool): 
+        - AddLbrCustomTlvs (bool): 
+        - AddLmmCustomTlvs (bool): 
+        - AddLmrCustomTlvs (bool): 
+        - AddLtmCustomTlvs (bool): 
+        - AddLtrCustomTlvs (bool): 
+        - AddOrganizationSpecificTlv (bool): 
+        - AddPortStatusTlv (bool): 
+        - AddSenderIdTlv (bool): 
+        - AisEnableUnicastMac (bool): 
+        - AisInterval (str(oneSec | oneMin)): 
+        - AisMode (str(auto | start | stop)): 
+        - AisPriority (number): 
+        - AisUnicastMac (str): 
+        - AutoDmAllDestination (bool): 
+        - AutoDmDestination (str): 
+        - AutoDmIteration (number): 
+        - AutoDmTimeout (number): 
+        - AutoDmTimer (number): 
+        - AutoLbAllDestination (bool): 
+        - AutoLbDestination (str): 
+        - AutoLbIteration (number): 
+        - AutoLbTimeout (number): 
+        - AutoLbTimer (number): 
+        - AutoLmIteration (number): 
+        - AutoLmTimeout (number): 
+        - AutoLmTimer (number): 
+        - AutoLtAllDestination (bool): 
+        - AutoLtDestination (str): 
+        - AutoLtIteration (number): 
+        - AutoLtTimeout (number): 
+        - AutoLtTimer (number): 
+        - CciInterval (str(3.33msec | 10msec | 100msec | 1sec | 10sec | 1min | 10min)): 
+        - CcmLmmTxFcf (number): 
+        - CcmLmmTxFcfStep (number): 
+        - CcmPriority (number): 
+        - CcmRxFcb (number): 
+        - CcmRxFcbStep (number): 
+        - ChassisId (str): 
+        - ChassisIdLength (number): 
+        - ChassisIdSubType (str(chassisComponent | interfaceAlias | portComponent | macAddress | networkAddress | interfaceName | locallyAssigned)): 
+        - DataTlvLength (number): 
+        - DataTlvValue (str): 
+        - DmMethod (str(twoWay | oneWay)): 
+        - DmPriority (number): 
+        - DmmPriority (number): 
+        - EnableAisRx (bool): 
+        - EnableAutoDm (bool): 
+        - EnableAutoLb (bool): 
+        - EnableAutoLm (bool): 
+        - EnableAutoLt (bool): 
+        - EnableLckRx (bool): 
+        - EnableLmCounterUpdate (bool): 
+        - EnableTstRx (bool): 
+        - Enabled (bool): 
+        - InterRemoteMepRxIncrementStep (number): 
+        - InterRemoteMepTxIncrementStep (number): 
+        - LbmPriority (number): 
+        - LckEnableUnicastMac (bool): 
+        - LckInterval (str(oneSec | oneMin)): 
+        - LckMode (str(auto | start | stop)): 
+        - LckPriority (number): 
+        - LckSupportAisGeneration (bool): 
+        - LckUnicastMac (str): 
+        - LmAllRemoteMeps (bool): 
+        - LmDestinationMacAddress (str): 
+        - LmMethod (str(singleEnded | dualEnded)): 
+        - LmmPriority (number): 
+        - LmrPriority (number): 
+        - LmrRxFcf (number): 
+        - LmrRxFcfStep (number): 
+        - LtmPriority (number): 
+        - MacAddress (str): 
+        - ManagementAddress (str): 
+        - ManagementAddressDomain (str): 
+        - ManagementAddressDomainLength (number): 
+        - ManagementAddressLength (number): 
+        - MdLevel (str(None | /api/v1/sessions/1/ixnetwork/vport/.../mdLevel)): 
+        - MegId (str): 
+        - MegIdFormat (str(iccBasedFormat | primaryVid | characterString | 2octetInteger | rfc2685VpnId)): 
+        - MepId (number): 
+        - MipId (number): 
+        - MpType (str(mip | mep)): 
+        - OrganizationSpecificTlvLength (number): 
+        - OrganizationSpecificTlvValue (str): 
+        - OverrideVlanPriority (bool): 
+        - Rdi (str(auto | on | off)): 
+        - ShortMaName (str): 
+        - ShortMaNameFormat (str(primaryVid | characterString | 2octetInteger | rfc2685VpnId)): 
+        - TstEnableUnicastMac (bool): 
+        - TstIncrPacketLength (bool): 
+        - TstIncrPacketLengthStep (number): 
+        - TstInitialPatternValue (number): 
+        - TstInterval (number): 
+        - TstMode (str(start | stop)): 
+        - TstOverwriteSequenceNumber (bool): 
+        - TstPacketLength (number): 
+        - TstPatternType (str(nullSignalWithoutCrc32 | nullSignalWithCrc32 | prbs2311WithoutCrc32 | prbs2311WithCrc32)): 
+        - TstPriority (number): 
+        - TstSequenceNumber (number): 
+        - TstTestType (str(inService | outOfService)): 
+        - TstUnicastMac (str): 
+        - Ttl (number): 
+        - Vlan (str(None | /api/v1/sessions/1/ixnetwork/vport/.../vlans)): 
+
+        Returns
+        -------
+        - self: This instance with all currently retrieved mp resources using find and the newly added mp resources available through an iterator or index
+
+        Raises
+        ------
+        - ServerError: The server has encountered an uncategorized error condition
+        """
+        return self._create(self._map_locals(self._SDM_ATT_MAP, locals()))
+
+    def remove(self):
+        """Deletes all the contained mp resources in this instance from the server.
+
+        Raises
+        ------
+        - NotFoundError: The requested resource does not exist on the server
+        - ServerError: The server has encountered an uncategorized error condition
+        """
+        self._delete()
+
+    def find(self, AddCcmCustomTlvs=None, AddDataTlv=None, AddInterfaceStatusTlv=None, AddLbmCustomTlvs=None, AddLbrCustomTlvs=None, AddLmmCustomTlvs=None, AddLmrCustomTlvs=None, AddLtmCustomTlvs=None, AddLtrCustomTlvs=None, AddOrganizationSpecificTlv=None, AddPortStatusTlv=None, AddSenderIdTlv=None, AisEnableUnicastMac=None, AisInterval=None, AisMode=None, AisPriority=None, AisUnicastMac=None, AutoDmAllDestination=None, AutoDmDestination=None, AutoDmIteration=None, AutoDmTimeout=None, AutoDmTimer=None, AutoLbAllDestination=None, AutoLbDestination=None, AutoLbIteration=None, AutoLbTimeout=None, AutoLbTimer=None, AutoLmIteration=None, AutoLmTimeout=None, AutoLmTimer=None, AutoLtAllDestination=None, AutoLtDestination=None, AutoLtIteration=None, AutoLtTimeout=None, AutoLtTimer=None, CciInterval=None, CcmLmmTxFcf=None, CcmLmmTxFcfStep=None, CcmPriority=None, CcmRxFcb=None, CcmRxFcbStep=None, ChassisId=None, ChassisIdLength=None, ChassisIdSubType=None, DataTlvLength=None, DataTlvValue=None, DmMethod=None, DmPriority=None, DmmPriority=None, EnableAisRx=None, EnableAutoDm=None, EnableAutoLb=None, EnableAutoLm=None, EnableAutoLt=None, EnableLckRx=None, EnableLmCounterUpdate=None, EnableTstRx=None, Enabled=None, InterRemoteMepRxIncrementStep=None, InterRemoteMepTxIncrementStep=None, LbmPriority=None, LckEnableUnicastMac=None, LckInterval=None, LckMode=None, LckPriority=None, LckSupportAisGeneration=None, LckUnicastMac=None, LmAllRemoteMeps=None, LmDestinationMacAddress=None, LmMethod=None, LmmPriority=None, LmrPriority=None, LmrRxFcf=None, LmrRxFcfStep=None, LtmPriority=None, MacAddress=None, ManagementAddress=None, ManagementAddressDomain=None, ManagementAddressDomainLength=None, ManagementAddressLength=None, MdLevel=None, MegId=None, MegIdFormat=None, MepId=None, MipId=None, MpType=None, OrganizationSpecificTlvLength=None, OrganizationSpecificTlvValue=None, OverrideVlanPriority=None, Rdi=None, ShortMaName=None, ShortMaNameFormat=None, TstEnableUnicastMac=None, TstIncrPacketLength=None, TstIncrPacketLengthStep=None, TstInitialPatternValue=None, TstInterval=None, TstMode=None, TstOverwriteSequenceNumber=None, TstPacketLength=None, TstPatternType=None, TstPriority=None, TstSequenceNumber=None, TstTestType=None, TstUnicastMac=None, Ttl=None, Vlan=None):
+        """Finds and retrieves mp resources from the server.
+
+        All named parameters are evaluated on the server using regex. The named parameters can be used to selectively retrieve mp resources from the server.
+        To retrieve an exact match ensure the parameter value starts with ^ and ends with $
+        By default the find method takes no parameters and will retrieve all mp resources from the server.
+
+        Args
+        ----
+        - AddCcmCustomTlvs (bool): 
+        - AddDataTlv (bool): 
+        - AddInterfaceStatusTlv (bool): 
+        - AddLbmCustomTlvs (bool): 
+        - AddLbrCustomTlvs (bool): 
+        - AddLmmCustomTlvs (bool): 
+        - AddLmrCustomTlvs (bool): 
+        - AddLtmCustomTlvs (bool): 
+        - AddLtrCustomTlvs (bool): 
+        - AddOrganizationSpecificTlv (bool): 
+        - AddPortStatusTlv (bool): 
+        - AddSenderIdTlv (bool): 
+        - AisEnableUnicastMac (bool): 
+        - AisInterval (str(oneSec | oneMin)): 
+        - AisMode (str(auto | start | stop)): 
+        - AisPriority (number): 
+        - AisUnicastMac (str): 
+        - AutoDmAllDestination (bool): 
+        - AutoDmDestination (str): 
+        - AutoDmIteration (number): 
+        - AutoDmTimeout (number): 
+        - AutoDmTimer (number): 
+        - AutoLbAllDestination (bool): 
+        - AutoLbDestination (str): 
+        - AutoLbIteration (number): 
+        - AutoLbTimeout (number): 
+        - AutoLbTimer (number): 
+        - AutoLmIteration (number): 
+        - AutoLmTimeout (number): 
+        - AutoLmTimer (number): 
+        - AutoLtAllDestination (bool): 
+        - AutoLtDestination (str): 
+        - AutoLtIteration (number): 
+        - AutoLtTimeout (number): 
+        - AutoLtTimer (number): 
+        - CciInterval (str(3.33msec | 10msec | 100msec | 1sec | 10sec | 1min | 10min)): 
+        - CcmLmmTxFcf (number): 
+        - CcmLmmTxFcfStep (number): 
+        - CcmPriority (number): 
+        - CcmRxFcb (number): 
+        - CcmRxFcbStep (number): 
+        - ChassisId (str): 
+        - ChassisIdLength (number): 
+        - ChassisIdSubType (str(chassisComponent | interfaceAlias | portComponent | macAddress | networkAddress | interfaceName | locallyAssigned)): 
+        - DataTlvLength (number): 
+        - DataTlvValue (str): 
+        - DmMethod (str(twoWay | oneWay)): 
+        - DmPriority (number): 
+        - DmmPriority (number): 
+        - EnableAisRx (bool): 
+        - EnableAutoDm (bool): 
+        - EnableAutoLb (bool): 
+        - EnableAutoLm (bool): 
+        - EnableAutoLt (bool): 
+        - EnableLckRx (bool): 
+        - EnableLmCounterUpdate (bool): 
+        - EnableTstRx (bool): 
+        - Enabled (bool): 
+        - InterRemoteMepRxIncrementStep (number): 
+        - InterRemoteMepTxIncrementStep (number): 
+        - LbmPriority (number): 
+        - LckEnableUnicastMac (bool): 
+        - LckInterval (str(oneSec | oneMin)): 
+        - LckMode (str(auto | start | stop)): 
+        - LckPriority (number): 
+        - LckSupportAisGeneration (bool): 
+        - LckUnicastMac (str): 
+        - LmAllRemoteMeps (bool): 
+        - LmDestinationMacAddress (str): 
+        - LmMethod (str(singleEnded | dualEnded)): 
+        - LmmPriority (number): 
+        - LmrPriority (number): 
+        - LmrRxFcf (number): 
+        - LmrRxFcfStep (number): 
+        - LtmPriority (number): 
+        - MacAddress (str): 
+        - ManagementAddress (str): 
+        - ManagementAddressDomain (str): 
+        - ManagementAddressDomainLength (number): 
+        - ManagementAddressLength (number): 
+        - MdLevel (str(None | /api/v1/sessions/1/ixnetwork/vport/.../mdLevel)): 
+        - MegId (str): 
+        - MegIdFormat (str(iccBasedFormat | primaryVid | characterString | 2octetInteger | rfc2685VpnId)): 
+        - MepId (number): 
+        - MipId (number): 
+        - MpType (str(mip | mep)): 
+        - OrganizationSpecificTlvLength (number): 
+        - OrganizationSpecificTlvValue (str): 
+        - OverrideVlanPriority (bool): 
+        - Rdi (str(auto | on | off)): 
+        - ShortMaName (str): 
+        - ShortMaNameFormat (str(primaryVid | characterString | 2octetInteger | rfc2685VpnId)): 
+        - TstEnableUnicastMac (bool): 
+        - TstIncrPacketLength (bool): 
+        - TstIncrPacketLengthStep (number): 
+        - TstInitialPatternValue (number): 
+        - TstInterval (number): 
+        - TstMode (str(start | stop)): 
+        - TstOverwriteSequenceNumber (bool): 
+        - TstPacketLength (number): 
+        - TstPatternType (str(nullSignalWithoutCrc32 | nullSignalWithCrc32 | prbs2311WithoutCrc32 | prbs2311WithCrc32)): 
+        - TstPriority (number): 
+        - TstSequenceNumber (number): 
+        - TstTestType (str(inService | outOfService)): 
+        - TstUnicastMac (str): 
+        - Ttl (number): 
+        - Vlan (str(None | /api/v1/sessions/1/ixnetwork/vport/.../vlans)): 
+
+        Returns
+        -------
+        - self: This instance with matching mp resources retrieved from the server available through an iterator or index
+
+        Raises
+        ------
+        - ServerError: The server has encountered an uncategorized error condition
+        """
+        return self._select(self._map_locals(self._SDM_ATT_MAP, locals()))
+
+    def read(self, href):
+        """Retrieves a single instance of mp data from the server.
+
+        Args
+        ----
+        - href (str): An href to the instance to be retrieved
+
+        Returns
+        -------
+        - self: This instance with the mp resources from the server available through an iterator or index
+
+        Raises
+        ------
+        - NotFoundError: The requested resource does not exist on the server
+        - ServerError: The server has encountered an uncategorized error condition
+        """
+        return self._read(href)
