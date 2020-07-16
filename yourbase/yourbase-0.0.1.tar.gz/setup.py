@@ -1,0 +1,24 @@
+import setuptools
+
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
+setuptools.setup(
+    name="yourbase",
+    version="0.0.1",
+    author="YourBase",
+    author_email="ben@yourbase.io",
+    description="Test acceleration usable in the YourBase CI",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/yourbase/yourbase-python",
+    packages=setuptools.find_packages(),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Topic :: Software Development :: Build Tools",
+        "Topic :: Software Development :: Testing",
+    ],
+    python_requires=">=3.6",
+)
