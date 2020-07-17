@@ -1,0 +1,3 @@
+import wui
+
+print(wui)
