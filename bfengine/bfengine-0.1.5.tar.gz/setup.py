@@ -1,0 +1,27 @@
+import setuptools
+
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
+setuptools.setup(
+    name="bfengine",
+    version="0.1.5",
+    author="JeremyXin",
+    author_email="chengjiexin@emotibot.com",
+    description="bf engine sdk for python",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    packages=setuptools.find_packages(),
+    package_data={
+        '': ['data/*.xlsx']
+    },
+    install_requires=[
+        "requests"
+    ],
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    python_requires='>=3.6',
+)
