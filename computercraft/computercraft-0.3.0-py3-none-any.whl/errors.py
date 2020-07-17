@@ -1,0 +1,2 @@
+class LuaException(Exception):
+    pass
