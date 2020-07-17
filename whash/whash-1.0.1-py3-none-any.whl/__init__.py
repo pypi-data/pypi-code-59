@@ -1,0 +1,1 @@
+from whash.whash import WHash
