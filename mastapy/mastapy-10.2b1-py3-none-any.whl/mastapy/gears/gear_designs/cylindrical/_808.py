@@ -1,0 +1,36 @@
+﻿'''_808.py
+
+HardnessProfileCalculationMethod
+'''
+
+
+from enum import Enum
+
+from mastapy._internal.python_net import python_net_import
+
+_HARDNESS_PROFILE_CALCULATION_METHOD = python_net_import('SMT.MastaAPI.Gears.GearDesigns.Cylindrical', 'HardnessProfileCalculationMethod')
+
+
+__docformat__ = 'restructuredtext en'
+__all__ = ('HardnessProfileCalculationMethod',)
+
+
+class HardnessProfileCalculationMethod(Enum):
+    '''HardnessProfileCalculationMethod
+
+    This is a mastapy class.
+
+    Note:
+        This class is an Enum.
+    '''
+
+    @classmethod
+    def type_(cls):
+        return _HARDNESS_PROFILE_CALCULATION_METHOD
+
+    __hash__ = None
+
+    MACKALDENER = 0
+    TOBE = 1
+    LANG = 2
+    THOMAS = 3
