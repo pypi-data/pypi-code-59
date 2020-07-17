@@ -1,0 +1,74 @@
+﻿'''__init__.py'''
+
+
+from mastapy._internal.dummy_base_class_importer import _DummyBaseClassImport
+
+
+with _DummyBaseClassImport():
+    from ._1922 import ImportedFELink
+    from ._1923 import AlignConnectedComponentOptions
+    from ._1924 import AlignmentMethod
+    from ._1925 import AlignmentMethodForRaceBearing
+    from ._1926 import AlignmentUsingAxialNodePositions
+    from ._1927 import AngleSource
+    from ._1928 import BaseFEWithSelection
+    from ._1929 import BatchOperations
+    from ._1930 import BearingNodeAlignmentOption
+    from ._1931 import BearingRaceNodeLink
+    from ._1932 import BearingRacePosition
+    from ._1933 import ComponentOrientationOption
+    from ._1934 import ContactPairWithSelection
+    from ._1935 import CreateConnectedComponentOptions
+    from ._1936 import DegreeOfFreedomBoundaryCondition
+    from ._1937 import DegreeOfFreedomBoundaryConditionAngular
+    from ._1938 import DegreeOfFreedomBoundaryConditionLinear
+    from ._1939 import ElectricMachineDataSet
+    from ._1940 import ElectricMachineDynamicLoadData
+    from ._1941 import ElementFaceGroupWithSelection
+    from ._1942 import ElementPropertiesWithSelection
+    from ._1943 import FEComponentWithBatchOptions
+    from ._1944 import FEEntityGroupWithSelection
+    from ._1945 import FEExportSettings
+    from ._1946 import FEStiffnessGeometry
+    from ._1947 import FEStiffnessTester
+    from ._1948 import FEWithBatchOptions
+    from ._1949 import GearMeshingOptions
+    from ._1950 import ImportedFE
+    from ._1951 import ImportedFEElectricMachineStatorLink
+    from ._1952 import ImportedFEGearMeshLink
+    from ._1953 import ImportedFEGearWithDuplicatedMeshesLink
+    from ._1954 import ImportedFeLinkWithSelection
+    from ._1955 import ImportedFEMultiNodeConnectorLink
+    from ._1956 import ImportedFEMultiNodeLink
+    from ._1957 import ImportedFENodeLink
+    from ._1958 import ImportedFEPlanetaryConnectorMultiNodeLink
+    from ._1959 import ImportedFEPlanetBasedLink
+    from ._1960 import ImportedFEPlanetCarrierLink
+    from ._1961 import ImportedFEPointLoadLink
+    from ._1962 import ImportedFEStiffnessNode
+    from ._1963 import ImportedFEType
+    from ._1964 import ImportedFEWithSelection
+    from ._1965 import ImportedFEWithSelectionComponents
+    from ._1966 import ImportedFEWithSelectionForHarmonicAnalysis
+    from ._1967 import ImportedFEWithSelectionModalAnalysis
+    from ._1968 import ImportedFEWithSelectionStaticAnalysis
+    from ._1969 import IndependentMastaCreatedCondensationNode
+    from ._1970 import LinkComponentAxialPositionErrorReporter
+    from ._1971 import LinkNodeSource
+    from ._1972 import MaterialPropertiesWithSelection
+    from ._1973 import MultiAngleConnectionLink
+    from ._1974 import NodeBoundaryConditionStaticAnalysis
+    from ._1975 import NodeGroupWithSelection
+    from ._1976 import NodeSelectionDepthOption
+    from ._1977 import OptionsWhenExternalFEFileAlreadyExists
+    from ._1978 import PerLinkExportOptions
+    from ._1979 import PerNodeExportOptions
+    from ._1980 import RaceBearingFE
+    from ._1981 import RaceBearingFESystemDeflection
+    from ._1982 import RaceBearingFEWithSelection
+    from ._1983 import ReplacedShaftSelectionHelper
+    from ._1984 import RollingRingConnectionLink
+    from ._1985 import ShaftHubConnectionFELink
+    from ._1986 import SystemDeflectionFEExportOptions
+    from ._1987 import ThermalExpansionOption
+    from ._1988 import UsedForExportingAnImportedFEsSetupOrSubstructuringStepToAnFEFile
