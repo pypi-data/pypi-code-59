@@ -1,0 +1,1 @@
+from covid_mx_data.covid_mx_data import CovidMxData
