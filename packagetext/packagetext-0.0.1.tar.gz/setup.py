@@ -1,0 +1,2 @@
+from setuptools import setup
+setup(name="packagetext",version="0.0.1",description="This is cool", Long_description="This is long long description.", author="Amey", packages=['packagetext'],install_requires=["nltk>=0.3"])
