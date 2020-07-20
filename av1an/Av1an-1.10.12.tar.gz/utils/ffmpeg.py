@@ -1,0 +1,63 @@
+#!/bin/env python
+
+
+import subprocess
+from pathlib import Path
+from subprocess import PIPE, STDOUT
+
+from .logger import log
+
+
+def concatenate_video(temp, output, encoder):
+    """With FFMPEG concatenate encoded segments into final file."""
+
+    log('Concatenating\n')
+
+    with open(f'{temp / "concat" }', 'w') as f:
+
+        encode_files = sorted((temp / 'encode').iterdir())
+        # Replace all the ' with '/'' so ffmpeg can read the path correctly
+        f.writelines("file '" + str(file.absolute()).replace('\'','\'\\\'\'') + "'\n" for file in encode_files)
+
+    # Add the audio file if one was extracted from the input
+    audio_file = temp / "audio.mkv"
+    if audio_file.exists():
+        audio = f'-i {audio_file} -c:a copy -map 1'
+    else:
+        audio = ''
+
+    if encoder == 'x265':
+
+        cmd = f' ffmpeg -y -fflags +genpts  -hide_banner -loglevel error -f concat -safe 0 -i {temp / "concat"} ' \
+            f'{audio} -c copy -movflags frag_keyframe+empty_moov -map 0  -f mp4 - | ffmpeg -y -hide_banner -loglevel error -i - -c copy {output} '
+        concat = subprocess.run(cmd, shell=True, stdout=PIPE, stderr=STDOUT).stdout
+
+    else:
+        cmd = f' ffmpeg -y -hide_banner -loglevel error -f concat -safe 0 -i {temp / "concat"} ' \
+            f'{audio} -c copy -map 0  -y "{output}"'
+
+        concat = subprocess.run(cmd, shell=True, stdout=PIPE, stderr=STDOUT).stdout
+
+
+    if len(concat) > 0:
+        log(concat.decode())
+        print(concat.decode())
+        raise Exception
+
+
+
+
+def extract_audio(input_vid: Path, temp, audio_params):
+    """Extracting audio from source, transcoding if needed."""
+    log(f'Audio processing\nParams: {audio_params}\n')
+    audio_file = temp / 'audio.mkv'
+
+    # Checking is source have audio track
+    check = fr' ffmpeg -y -hide_banner -loglevel error -ss 0 -i "{input_vid}" -t 0 -vn -c:a copy -f null -'
+    is_audio_here = len(subprocess.run(check, shell=True, stdout=PIPE, stderr=STDOUT).stdout) == 0
+
+    # If source have audio track - process it
+    if is_audio_here:
+        cmd = f'ffmpeg -y -hide_banner -loglevel error -i "{input_vid}" -vn ' \
+              f'{audio_params} {audio_file}'
+        subprocess.run(cmd, shell=True)
