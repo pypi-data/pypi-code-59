@@ -1,0 +1,1 @@
+from .ts_insights import trend_identification
