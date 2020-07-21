@@ -1,0 +1,64 @@
+from datetime import datetime
+from typing import Optional
+
+import pytz
+from sqlalchemy import func
+
+from bookmark import Bookmarker
+
+"""
+sql query to add _bookmark table:
+
+CREATE TABLE IF NOT EXISTS _bookmark
+(
+  bookmark_key character varying(255) NOT NULL,
+  bookmark_value character varying(255),
+  created_at   timestamp with time zone DEFAULT now() NOT NULL,
+  updated_at   timestamp with time zone DEFAULT now() NOT NULL,
+
+  PRIMARY KEY (bookmark_key)
+);
+"""
+
+
+def get_bookmark_model(db):
+    class BookmarkModel(db.Model):
+        __tablename__ = "_bookmark"
+        __table_args__ = {"extend_existing": True}
+
+        bookmark_value = db.Column(db.String, nullable=True)
+        bookmark_key = db.Column(db.String, primary_key=True, nullable=False)
+        updated_at = db.Column(
+            db.DateTime, nullable=False, default=func.now(), onupdate=func.now()
+        )
+        created_at = db.Column(db.DateTime, nullable=False, default=func.now())
+
+    return BookmarkModel
+
+
+class SQLAlchemyBookmarker(Bookmarker):
+    def __init__(self, db):
+        self._model = get_bookmark_model(db)
+        self._db = db
+
+    def get(self, key: str) -> Optional[str]:
+        bookmark = (
+            self._db.session.query(self._model)
+            .filter(self._model.bookmark_key == key)
+            .one_or_none()
+        )
+        if not bookmark:
+            return None
+
+        return bookmark.bookmark_value
+
+    def __setitem__(self, key: str, value: str):
+        self._update(key=key, value=value)
+
+    def _update(self, key: str, value: str):
+        time_now = pytz.utc.localize(datetime.utcnow())
+        cs_cursor = self._model(
+            bookmark_key=key, bookmark_value=value, updated_at=time_now
+        )
+        self._db.session.merge(cs_cursor)
+        self._db.session.commit()
