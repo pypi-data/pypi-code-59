@@ -1,0 +1,98 @@
+import os
+from pathlib import Path
+import datetime
+
+import time
+
+from mangum import Mangum
+
+from fastapi import FastAPI, Request, APIRouter
+from fastapi.middleware.cors import CORSMiddleware
+
+from .config import settings
+
+from magicapi.Globals.G import g
+
+
+def add_cors(new_app):
+    new_app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+
+def add_tasks_and_process_time_middleware(new_app):
+    @new_app.middleware("http")
+    async def add_process_time_and_tasks(request: Request, call_next):
+        start_time = time.time()
+        g.request = request
+        g.app = new_app
+        print("url path", request.url.path, "***url", request.url)
+        response = await call_next(request)
+        response.headers["X-Tasks-Time"] = str(g.save_tasks())  # queue tasks
+        response.headers["X-Process-Time"] = str(time.time() - start_time)
+        return response
+
+
+def add_hello_world_testing_route(new_app):
+    @new_app.get("/", tags=["boilerplate"])
+    def read_root():
+        print("hello world!")
+        return {
+            "Hello": "Worlda!",
+            "cwd": Path.cwd(),
+            "dir": os.listdir(),
+        }
+
+
+def add_addons(new_app):
+    add_cors(new_app)
+    add_tasks_and_process_time_middleware(new_app)
+    add_hello_world_testing_route(new_app)
+
+
+def add_background_tasks():
+    from magicapi.Decorators.background_tasks import run_in_background
+
+
+def make_magic_router(app: FastAPI):
+    from magicapi.RouteClasses import MagicCallLogger
+    magic_router = APIRouter(route_class=MagicCallLogger)
+    g.magic_router = magic_router
+
+
+def add_magic_routers():
+    g.app.include_router(g.magic_router)
+
+
+def create_app(config_settings=settings):
+    print("creating_app", datetime.datetime.now())
+    new_app = FastAPI(
+        title=config_settings.app_name,
+        version=config_settings.version,
+        root_path="" if config_settings.local else f"/{config_settings.stage}",
+    )
+
+    add_addons(new_app)
+    g.app = new_app
+    add_background_tasks()
+    make_magic_router(g.app)
+    return new_app
+
+
+def create_handler(app):
+    def handler(event, context):
+        """Handler to give to lambda... which wraps FastAPI"""
+        if event.get("source") in ["aws.events", "serverless-plugin-warmup"]:
+            print("Lambda is warm!")
+            return {}
+
+        asgi_handler = Mangum(app, api_gateway_base_path=settings.stage)
+        response = asgi_handler(event, context)
+        return response
+
+    g.handler = handler
+    return handler
