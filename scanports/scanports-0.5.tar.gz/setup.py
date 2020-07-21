@@ -1,0 +1,11 @@
+from setuptools import setup
+
+
+setup(
+	name='scanports',
+	version='0.5',
+	description='Hello!',
+	packages=['scanports'],
+	author_email='myofficial.acaunt@gmail.com',
+	zip_safe=False
+)
