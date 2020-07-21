@@ -1,0 +1,2 @@
+class MongoReader(object):
+    pass
