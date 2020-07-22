@@ -1,0 +1,3 @@
+   
+class NotLoggedError(Exception):
+    pass
