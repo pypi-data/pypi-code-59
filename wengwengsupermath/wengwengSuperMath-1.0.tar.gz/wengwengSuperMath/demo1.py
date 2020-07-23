@@ -1,0 +1,2 @@
+def jiafa():
+    print("jiafa")
