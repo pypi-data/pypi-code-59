@@ -1,0 +1,33 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 _*-  
+"""
+@license : Copyright(C), WAYZ
+@author  : Bruce Liu
+@time    : 2020/2/5 17:00
+@contact : bruce.liu@wayz.ai
+"""
+from unittest import TestCase
+
+from cad.aes_util import AESUtil
+
+
+class TestAESUtil(TestCase):
+    aes_util = AESUtil('123')
+
+    def test_1(self):
+        data = {
+            'al': 123,
+            'sk': "12dasfw4r"
+        }
+
+        en = self.aes_util.encrypt(data)
+        print(en)
+        de = self.aes_util.decrypt(en)
+        print(de)
+
+        aes = AESUtil('123')
+        from json import dumps
+        r = aes.encrypt(dumps({'ak': '720a09b16e7f7f2c', 'sk': '923fa5ab35f42f3b', 'permissions': {'auth_codes': [], 'app_ids': []}}))
+        print(r)
+        b = aes.decrypt(r)
+        print(b)
