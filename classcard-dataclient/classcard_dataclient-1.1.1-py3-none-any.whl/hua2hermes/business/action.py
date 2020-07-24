@@ -1,0 +1,54 @@
+import datetime
+import pymssql
+from requester.nirvana import NirvanaRequester
+from utils.dateutils import datetime2str_z, str2datetime, date2str
+from config import CLASS_CARD_HOST, CLASS_CARD_PORT
+from utils.redis_utils import RedisCache
+from utils.loggerutils import logging
+from config import SQLSERVER_HOST, SQLSERVER_USER, SQLSERVER_PW, SQLSERVER_DB
+
+logger = logging.getLogger(__name__)
+
+
+def get_mssql_connection():
+    conn = pymssql.connect(server=SQLSERVER_HOST, user=SQLSERVER_USER, password=SQLSERVER_PW,
+                           database=SQLSERVER_DB)
+    cur = conn.cursor()
+    return conn, cur
+
+
+def upload_meeting_attendance(school_id, content):
+    status_map = {1: 0, 2: 3, 3: 1, 4: 2}
+    logger.info(">>> Process upload_student_attendance")
+    attendance_id = content['original']["id"]
+    nirvana_requester = NirvanaRequester(school_id=school_id, host=CLASS_CARD_HOST, port=CLASS_CARD_PORT)
+    attendance_data = nirvana_requester.get_conventioneer_record_info(attendance_id)
+    meeting_extra_info = attendance_data["meeting"]["extra_info"]
+    meet_no = meeting_extra_info.get("meet_no")
+    user_num = attendance_data["conventioneer"]["number"]
+    record_time = attendance_data['record_time']
+    status = attendance_data["status"]
+    last_record_time = attendance_data['last_record_time']
+    record_time = record_time.replace("T", " ")
+    last_record_time = last_record_time.replace("T", " ")
+    if not (record_time and meet_no and user_num):
+        return
+    conn, cur = get_mssql_connection()
+    sql = "SELECT ID, REALSTART, REALEND FROM M_Meeting_Man_Out " \
+          "WHERE MeetNo='{}' AND OutId='{}' ORDER BY ID".format(meet_no, user_num)
+    cur.execute(sql)
+    result = cur.fetchone()
+    record_id, start, end = result[0], result[1], result[2]
+    start_date = date2str(start.date())
+    set_start = start_date == "1900-01-01"
+    if set_start:
+        record_status = status_map.get(status)
+        update_sql = "UPDATE M_Meeting_Man_Out SET REALSTART='{}', STARTSTATUS={} " \
+                     "WHERE ID={}".format(record_time, record_status, record_id)
+    else:
+        update_sql = "UPDATE M_Meeting_Man_Out SET REALEND='{}', ENDSTATUS={} " \
+                     "WHERE ID={}".format(last_record_time, 1, record_id)
+    cur.execute(update_sql)
+    conn.commit()
+    cur.close()
+    conn.close()
