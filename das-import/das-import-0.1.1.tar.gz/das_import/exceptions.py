@@ -1,0 +1,2 @@
+class CardImportError(Exception):
+    pass
