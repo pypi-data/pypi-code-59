@@ -1,0 +1,1 @@
+#__all__=['Shortcut','setup']
